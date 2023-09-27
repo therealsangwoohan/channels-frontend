@@ -1,8 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
-import Navbar from "../components/Navbar";
+import NavigationBar from "../components/NavigationBar";
 import socketIO from "socket.io-client";
 
 function Channel() {
@@ -56,17 +62,23 @@ function Channel() {
 
   return (
       <div>
-          <Navbar></Navbar>
-          <div>
-              <h2>{channel.channel_name}</h2>
-              <div className="messages">
-              {messages.map((message) => 
-                <div key={message.message_id}>
-                  <p>{message.text}</p>
-                </div>
-              )}
-              </div>
-              <div className="inputs">
+          <NavigationBar></NavigationBar>
+          <br />
+          <Container>
+            <Row>
+              <Col>
+                <h2>{channel.channel_name}</h2>
+                <Card>
+                  <Card.Body>
+                  {messages.map((message) => (
+                    <Card.Text key={message.message_id}>
+                      {message.user_id}: {message.text}
+                    </Card.Text>
+                  ))}
+                  </Card.Body>
+                </Card>
+                <br />
+                <div className="inputs">
                   <input
                       type="text"
                       required
@@ -77,7 +89,9 @@ function Channel() {
                       Send
                   </button>
               </div>
-          </div>
+              </Col>
+            </Row>
+          </Container>
       </div>     
   )
 }

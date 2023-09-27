@@ -4,7 +4,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import PageLoader from "./components/PageLoader"
 import Home from "./views/Home";
 import CreateChannel from "./views/CreateChannel";
-import Profile from "./views/Profile";
 import Discover from "./views/Discover";
 import Channel from "./views/Channel";
 import { AuthenticationGuard } from "./components/AuthentificationGuard";
@@ -29,10 +28,6 @@ function Website() {
         <Route
           path="/create-channel"
           element={<AuthenticationGuard component={CreateChannel} />}
-        />
-        <Route
-          path="/profile"
-          element={<AuthenticationGuard component={Profile} />}
         />
         <Route
           path="/channels/:channel_id"

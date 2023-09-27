@@ -1,5 +1,8 @@
-import Navbar from "../components/Navbar";
+import NavigationBar from "../components/NavigationBar";
+import Container from "react-bootstrap/Container";
 import { useEffect, useState } from "react";
+
+import ChannelPreview from "../components/ChannelPreview";
 
 function Discover() {
     const [channels, setChannels] = useState([]);
@@ -13,16 +16,13 @@ function Discover() {
 
     return (
         <div>
-            <Navbar></Navbar>
-            <h1>Discover</h1>
-            <div>
-            {channels.map((channel) => 
-                <a key={channel.channel_id}
-                   href={`/channels/${channel.channel_id}`}>
-                    <h2>{channel.channel_name}</h2>
-                </a>
-            )}
-            </div>
+            <NavigationBar></NavigationBar>
+            <br />
+            <Container>
+              {channels.map((channel) => 
+                <ChannelPreview key={channel.channel_id} channel={channel}></ChannelPreview>
+              )}
+            </Container>
         </div>
     )
 }

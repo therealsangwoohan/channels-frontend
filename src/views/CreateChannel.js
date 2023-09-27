@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import Navbar from "../components/Navbar";
+import NavigationBar from "../components/NavigationBar";
 import { useNavigate } from "react-router-dom";
+
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 function CreateChannel() {
     const { user } = useAuth0();
-    const [channelName, setChannelName] = useState("");
+    const [channelName, setChannelName] = useState(`${user.username}'s channel`);
     const navigate = useNavigate();
 
     function handleSubmit(e) {
@@ -27,18 +31,21 @@ function CreateChannel() {
 
     return (
         <div>
-            <Navbar></Navbar>
-            <h3>Create Channel</h3>
-            <form onSubmit={handleSubmit}>
-                <label>Channel name:</label>
-                <input 
-                    type="text"
-                    required
-                    value={channelName}
-                    onChange={(e) => setChannelName(e.target.value)}
+            <NavigationBar></NavigationBar>
+            <br />
+            <Container>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group>
+                <Form.Label>Channel name</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={channelName}
+                  onChange={(e) => setChannelName(e.target.value)}
+                  required
                 />
-                <button>Create</button>
-            </form>
+              </Form.Group>
+            </Form>
+            </Container>
         </div>
     )
 }

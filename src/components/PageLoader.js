@@ -1,11 +1,15 @@
-function PageLoader() {
-    const loadingImg = "https://cdn.auth0.com/blog/hello-auth0/loader.svg";
+import { PacmanLoader } from "react-spinners";
 
-    return (
-        <div className="loader">
-            <img src={loadingImg} alt="Loading..." />
-        </div>
-    );
+function PageLoader() {
+  return (
+    <div style={{
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center"
+    }}>
+      <PacmanLoader color="yellow"></PacmanLoader>
+    </div>
+  );
 };
 
 export default PageLoader;
