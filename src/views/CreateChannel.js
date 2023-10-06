@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 
 function CreateChannel() {
     const { user } = useAuth0();
@@ -24,7 +23,6 @@ function CreateChannel() {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(channel)
         }).then(() => {
-            console.log("New channel created");
             navigate("/discover");
         });
     }
