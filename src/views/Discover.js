@@ -8,7 +8,7 @@ function Discover() {
     const [channels, setChannels] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/channels')
+        fetch(`${process.env.REACT_APP_CHANNELS_BACKEND_API}/api/channels`)
             .then((response) => response.json())
             .then((data) => setChannels(data))
             .catch((error) => console.error('Error fetching channels:', error));

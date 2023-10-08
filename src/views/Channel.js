@@ -5,8 +5,6 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 
 import NavigationBar from "../components/NavigationBar";
 import socketIO from "socket.io-client";
@@ -20,17 +18,17 @@ function Channel() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   
-  const socket = socketIO.connect("http://localhost:4500", {query: `channel_id=${channel_id}`});
+  const socket = socketIO.connect(process.env.REACT_APP_CHANNELS_BACKEND_CHAT, {query: `channel_id=${channel_id}`});
 
   useEffect(() => {
-    fetch(`http://localhost:4000/api/channels/${channel_id}`)
+    fetch(`${process.env.REACT_APP_CHANNELS_BACKEND_API}/api/channels/${channel_id}`)
     .then((response) => response.json())
     .then((data) => setChannel(data))
     .catch((error) => console.error('Error fetching channel:', error));
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/api/messages?channel_id=${channel_id}`)
+    fetch(`${process.env.REACT_APP_CHANNELS_BACKEND_API}/api/messages?channel_id=${channel_id}`)
       .then((response) => response.json())
       .then((data) => setMessages(data))
       .catch((error) => console.error('Error fetching messages:', error));

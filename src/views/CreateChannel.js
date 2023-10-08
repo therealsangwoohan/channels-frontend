@@ -18,7 +18,7 @@ function CreateChannel() {
             "channel_name": channelName 
         };
 
-        fetch("http://localhost:4000/api/channels", {
+        fetch(`${process.env.REACT_APP_CHANNELS_BACKEND_API}/api/channels`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(channel)
