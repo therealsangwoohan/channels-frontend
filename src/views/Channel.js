@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 
 import NavigationBar from "../components/NavigationBar";
-import socketIO from "socket.io-client";
+import { socket } from "../socket";
 
 function Channel() {
   
@@ -15,10 +15,8 @@ function Channel() {
   const { user } = useAuth0();
   
   const [channel, setChannel] = useState();
-  const [message, setMessage] = useState("");
+  const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
-  
-  const socket = socketIO.connect(process.env.REACT_APP_CHANNELS_BACKEND_CHAT, {query: `channel_id=${channel_id}`});
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_CHANNELS_BACKEND_API}/api/channels/${channel_id}`)
@@ -35,19 +33,39 @@ function Channel() {
   }, []);
 
   useEffect(() => {
-    socket.on("message", function(data) {
+    socket.on('connect', joinChannel);
+    socket.on('disconnect', onDisconnect);
+    socket.on('chat', handleMessage);
+
+    function joinChannel() {
+      console.log("onConnect");
+      socket.emit("join", channel_id);
+    }
+
+    function onDisconnect() {
+      console.log("onDisconnect");
+    }
+
+    function handleMessage(data) {
       setMessages([...messages, data]);
-    });
-  }, [messages]);
+      console.log(messages);
+    }
+
+    return () => {
+      socket.off('connect', joinChannel);
+      socket.off('disconnect', onDisconnect);
+      socket.off('chat', handleMessage);
+    };
+  }, []);
 
   function sendMessage() {
-    socket.emit("message", {
+    socket.emit("chat", {
       channel_id: channel_id,
       user_id: user.username,
       sent_at: new Date(),
-      text: message,
+      text: text,
     });
-    setMessage("");
+    setText("");
   }
 
   if (channel === undefined) {
@@ -80,8 +98,8 @@ function Channel() {
                   <input
                       type="text"
                       required
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
+                      value={text}
+                      onChange={(e) => setText(e.target.value)}
                   />
                   <button onClick={sendMessage}>
                       Send
